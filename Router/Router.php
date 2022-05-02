@@ -1,41 +1,77 @@
 <?php
-
+/**
+ * Class Router
+ */
 class Router
 {
-	private $routes = [];
-	private $view;
-	private $path;
+	/**
+	 * @var array
+	 */
+	private array $routes = [];
 
-	public function __construct(array $routes, $path) {
+	/**
+	 * @var string
+	 */
+	private string $view;
+
+	/**
+	 * @var string
+	 */
+	private string $path;
+
+	/**
+	 * @param array $routes
+	 * @param string $path
+	 */
+	public function __construct(array $routes, string $path)
+	{
 		$this->path = $path;
 		foreach ($routes as $route => $view) {
 			$this->add($route, $view);
 		}
 	}
 
-	private function getRouteFromUrl() {
-		$uri = $_SERVER['REQUEST_URI'];
-    $url = filter_var(rtrim($uri, '/'), FILTER_SANITIZE_URL);
-    return $url;
+	/**
+	 * @return string
+	 */
+	private function getRouteFromUrl(): string
+	{
+    return filter_var(rtrim($_SERVER['REQUEST_URI'], '/'), FILTER_SANITIZE_URL);
   }
 
-	private function add($route, $view) {
+	/**
+	 * @param string $route
+	 * @param string $view
+	 * @return void
+	 */
+	private function add(string $route, string $view): void
+	{
 		$route = '#^' . $route . '$#';
 		$this->routes[$route] = $view;
 	}
 
-	private function match() {
+	/**
+	 * @return bool
+	 */
+	private function match(): bool
+	{
 		$url = $this->getRouteFromUrl();
+
 		foreach ($this->routes as $route => $view) {
 			if (preg_match($route, $url, $matches)) {
 				$this->view = $view;
 				return true;
 			}
 		}
+
 		return false;
 	}
 
-	public function run() {
+	/**
+	 * @return void
+	 */
+	public function run(): void
+	{
 		if ($this->match()) {
 			$file = $this->path . $this->view . '.view.php';
 			if (file_exists($file)) {

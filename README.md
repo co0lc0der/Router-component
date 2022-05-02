@@ -13,12 +13,13 @@ $config = require __DIR__ . '/Router/config.php';
 ```php
 'tplpath' => __DIR__ . '/../templates/',
 'routes' => [
-  '' 			=> 'index',
-  '/login'		=> 'login',
-  '/profile'	=> 'profile',
+  '' => 'index',
+  '/login' => 'login',
+  '/profile' => 'profile',
 ]
 ```
-### 2. Create files according the routes you added. A file must be called `2nd_part_of_route.view.php`. For example we have a route `'/about'	=> 'about_us'` therefore the file must be `about_us.view.php` and be placed into `templates` folder (`tplpath` parameter). If a file cannot be found Router shows `404.view.php` from `templates` folder.
+### 2. Create files according the routes you added.
+A file must be called `2nd_part_of_route.view.php`. For example we have a route `'/about'	=> 'about_us'` therefore the file must be `about_us.view.php` and be placed into `templates` folder (`tplpath` parameter). If a file cannot be found Router shows `404.view.php` from `templates` folder.
 ```
 templates/
   404.view.php
